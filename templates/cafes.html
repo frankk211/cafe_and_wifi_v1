@@ -1,0 +1,68 @@
+<!--{% extends 'bootstrap/base.html' %}-->
+{% include "header.html" %}
+
+
+{% block styles %}
+{{ super() }}
+
+
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+
+{% endblock %}
+
+
+{% block title %}All Cafes{% endblock %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12" style="margin-top:100px; text-align: center">
+
+      <h1 >All Cafes</h1>
+
+	  <table class="table" style="color: white; margin-top:100px">
+		<tr>
+			  <th>Cafe name</th>
+			  <th>Location</th>
+			  <th>Open</th>
+				<th>Close</th>
+			<th>Coffee</th>
+			<th>Wifi</th>
+			<th>Power Outlet</th>
+		  </tr>
+	  {% for cafe in all_cafes %}
+
+
+	  <tr style="text-decoration: none;">
+
+		  <td><a style="text-decoration: none;" href="{{ cafe['cafe_site'] }}" target="_blank">{{ cafe['cafe_name'] }}</a></td>
+		  <td><a style="text-decoration: none;" href="{{ cafe['location'] }}" target='_blank'>Maps Link</a></td>
+			<td>{{ cafe['open'] }}</td>
+		  <td>{{ cafe['close'] }}</td>
+		  <td>{{ cafe['coffee'] }}</td>
+		  <td>{{ cafe['wifi'] }}</td>
+		  <td>{{ cafe['power'] }}</td>
+		  <td>
+			  {% if current_user.id == cafe.author.id: %}
+            <a style="text-decoration: none; hover: yellow;" href="{{url_for('delete_post', cafe_id=cafe['id']) }}">Delete Cafe</a>
+			  {% endif %}
+		  </td>
+		  <td>
+			  {% if current_user.id == 1: %}
+            <a style="text-decoration: none;" href="{{url_for('delete_admin', cafe_id=cafe['id']) }}">Admin Delete</a>
+			  {% endif %}
+		  </td>
+	  </tr>
+	  {% endfor %}
+  	  </table>
+      <p><a style="text-decoration: none; font-size:18px;" href="{{ url_for('home') }}">Return to index page</a></p>
+		<p><a style="text-decoration: none; font-size:18px;" href="{{ url_for('add_cafe') }}">Add Cafe</a></p>
+
+    </div>
+  </div>
+</div>
+{% include "footer.html" %}
+{% endblock %}
